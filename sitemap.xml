@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://lavamc.dpdns.org/</loc>
-  </url>
+  <url><loc>https://lavamc.dpdns.org/</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/rules</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/store</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/vote</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/announcements</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/reviews</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/staff</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/links</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/help</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/server-info</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/events</loc><lastmod>2026-11-23</lastmod></url>
+  <url><loc>https://lavamc.dpdns.org/community</loc><lastmod>2026-11-23</lastmod></url>
 </urlset>

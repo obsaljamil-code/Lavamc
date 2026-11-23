@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /chat
+Disallow: /admin
+Disallow: /report
+
+Sitemap: https://lavamc.dpdns.org/sitemap.xml

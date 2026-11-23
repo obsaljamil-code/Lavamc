@@ -5,6 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <title>Lavamc | Minecraft Server</title>
+<meta name="description" content="Lavamc – বাংলাদেশি Minecraft সার্ভার। র‍্যাংক কিনুন, ওয়ালেট টপ-আপ করুন, চ্যাট করুন ও সার্ভারে যোগ দিন।">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#facc15">
+<link rel="canonical" href="https://lavamc.dpdns.org/">
+<script>
+/* ===== পরিষ্কার ঠিকানা (# ছাড়া): /store/ /rules/ ... ===== */
+var PATHS={home:'',rules:'rules',store:'store',vote:'vote',admin:'admin','p-ann':'announcements','p-reviews':'reviews','p-staff':'staff','p-links':'links','p-help':'help','p-siteinfo':'server-info','p-events':'events','p-community':'community','p-chat':'chat','p-report':'report'};
+function pathOf(k){ return '/' + (PATHS[k] || ''); }
+function keyOfPath(p){ p = String(p).split('#')[0].split('?')[0].replace(/\/+$/,'').split('/').pop(); if(p === 'index.html') p = ''; for(var k in PATHS) if(PATHS[k] === p) return k; return null; }
+function curHash(){ return '#' + (keyOfPath(location.pathname) || 'home'); }
+function goHash(h){
+  var k = String(h).replace('#',''); if(!(k in PATHS)) k = 'home';
+  var u = pathOf(k);
+  if(location.pathname !== u || location.hash) history.pushState(null, '', u);
+  window.__pgTitle = 0; var nn = document.querySelector('.logo span.eng'); document.title = (nn && nn.textContent ? nn.textContent : 'Lavamc') + ' | Minecraft Server';
+  window.dispatchEvent(new Event('hashchange'));
+}
+try{ if(location.hash.length > 1){ var lk = location.hash.slice(1); if(lk in PATHS) history.replaceState(null, '', pathOf(lk)); } }catch(e){}
+window.addEventListener('hashchange', function(){ try{ var h = location.hash.slice(1); if(h && (h in PATHS)) history.replaceState(null, '', pathOf(h)); }catch(e){} });
+window.addEventListener('popstate', function(){ window.dispatchEvent(new Event('hashchange')); });
+document.addEventListener('click', function(e){
+  var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+  if(!a || a.target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey || e.button) return;
+  var h = a.getAttribute('href') || '';
+  if(h.length > 1 && h.charAt(0) === '#'){ e.preventDefault(); goHash(h); }
+  else if(h.charAt(0) === '/' && h.charAt(1) !== '/' && (h === '/' || keyOfPath(h))){ e.preventDefault(); goHash('#' + (keyOfPath(h) || 'home')); }
+}, true);
+</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lavamc">
+<meta property="og:title" content="Lavamc | Minecraft Server">
+<meta property="og:description" content="Lavamc – বাংলাদেশি Minecraft সার্ভার। র‍্যাংক কিনুন ও সার্ভারে যোগ দিন।">
+<meta property="og:url" content="https://lavamc.dpdns.org/">
+<meta property="og:image" content="https://lavamc.dpdns.org/og-image.png">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Lavamc","alternateName":["LavaMC","Lavamc Minecraft Server"],"url":"https://lavamc.dpdns.org/","image":"https://lavamc.dpdns.org/og-image.png"}</script>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -790,6 +830,7 @@
 </style>
 </head>
 <body>
+<noscript><h1>Lavamc – Minecraft Server</h1><p>Lavamc বাংলাদেশি Minecraft সার্ভার। র‍্যাংক কিনুন ও সার্ভারে যোগ দিন।</p></noscript>
 <div id="htmlNetBar" class="net-banner" style="display:none">⚠️ ইন্টারনেট সংযোগ নেই — অনুগ্রহ করে ইন্টারনেট কানেক্ট করুন</div>
 
 
@@ -807,7 +848,7 @@
 
 <header>
   <div class="hleft">
-    <a class="logo" href="#home"><img class="beLogo" id="headLogo" alt="logo"><span class="eng">Lavamc</span></a>
+    <a class="logo" href="/"><img class="beLogo" id="headLogo" alt="logo"><span class="eng">Lavamc</span></a>
     <button class="wallet-btn" id="headerWalletBtn" type="button" title="ওয়ালেট ব্যালেন্স">
       <span class="wallet-icon"><svg class="wsvg" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><defs><linearGradient id="wgBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9b9b9"/><stop offset="1" stop-color="#4a4a4a"/></linearGradient><linearGradient id="wgFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient><linearGradient id="wgClasp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#8d8d8d"/></linearGradient></defs><ellipse cx="32" cy="57" rx="22" ry="3.5" fill="#000" opacity=".45"/><path d="M10 20 L46 12 Q50 11 50 15 L50 20 Z" fill="url(#wgFlap)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><rect x="7" y="20" width="50" height="34" rx="7" fill="url(#wgBody)" stroke="#fff" stroke-width="1.8"/><path d="M10 25 Q10 22.5 13 22.5 L50 22.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/><path d="M9 50 Q9 53 12 53 L52 53" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" opacity=".45"/><rect x="38" y="30" width="22" height="14" rx="5" fill="url(#wgFlap)" stroke="#fff" stroke-width="1.8"/><circle cx="46" cy="37" r="3.4" fill="url(#wgClasp)" stroke="#000" stroke-width=".8"/><circle cx="45.2" cy="36.2" r="1" fill="#fff"/></svg></span>
       <span>৳<span id="headerWalletBal">0</span></span>
@@ -832,12 +873,12 @@
     </div>
   </a>
   <a href="javascript:void(0)" id="drawerOrdersLink" style="display:none;border-color:rgba(var(--acr),.4);margin-bottom:12px">🧾 <div><b style="color:var(--accent)">আমার অর্ডার ও হিস্টোরি</b><div style="font-size:.8rem;color:var(--muted)">কী কিনেছ, Rank এসেছে কিনা</div></div></a>
-  <a href="#home">🏠 হোম</a>
-  <a href="#rules">🛡️ Server Rules</a>
-  <a href="#store">🛒 Store</a>
-  <a href="#vote">🗳️ ভোট লিংক</a>
+  <a href="/">🏠 হোম</a>
+  <a href="/rules">🛡️ Server Rules</a>
+  <a href="/store">🛒 Store</a>
+  <a href="/vote">🗳️ ভোট লিংক</a>
   <div id="infoLinks" style="display:contents"></div>
-  <a class="adminlink" id="adminLink" href="#admin" style="display:none">⚙️ Admin Panel</a>
+  <a class="adminlink" id="adminLink" href="/admin" style="display:none">⚙️ Admin Panel</a>
 </nav>
 
 <!-- ===== প্রথম পেজ ===== -->
@@ -911,7 +952,7 @@
     <p>ভোট দিয়ে সার্ভারকে সাপোর্ট করো। প্রতিটা লিংক নতুন ট্যাবে খুলবে।</p>
   </div>
   <div class="votelist" id="voteList"></div>
-  <a class="backbtn" href="#home">← হোম পেজে ফিরে যাও</a>
+  <a class="backbtn" href="/">← হোম পেজে ফিরে যাও</a>
 </section>
 
 <!-- ===== রুলস পেজ ===== -->
@@ -921,7 +962,7 @@
     <h1 class="eng">Rules</h1>
   </div>
   <div class="rules-wrap" id="rulesWrap"></div>
-  <a class="backbtn" href="#home">← হোম পেজে ফিরে যাও</a>
+  <a class="backbtn" href="/">← হোম পেজে ফিরে যাও</a>
 </section>
 
 <!-- ===== স্টোর পেজ ===== -->
@@ -937,7 +978,7 @@
     এই ওয়েবসাইট থেকে কেনা যায় না।
     <div style="margin-top:12px"><a class="backbtn" id="buyDiscord" href="#" target="_blank" rel="noopener">Join Discord</a></div>
   </div>
-  <a class="backbtn" href="#home">← হোম পেজে ফিরে যাও</a>
+  <a class="backbtn" href="/">← হোম পেজে ফিরে যাও</a>
 </section>
 
 <!-- ===== এডমিন প্যানেল ===== -->
@@ -974,7 +1015,7 @@
   <div class="admin-actions">
     <button class="save" id="adminSave">💾 Save</button>
     <button class="reset" id="adminReset">↩️ Cancel</button>
-    <a class="backbtn" href="#home">← হোম</a>
+    <a class="backbtn" href="/">← হোম</a>
   </div>
 </section>
 
@@ -1181,7 +1222,7 @@ document.querySelectorAll('.beLogo').forEach(i => {
   i.src = baseLogo;
 });
 
-document.title = CONFIG.SERVER_NAME + " | Minecraft Server";
+if(!window.__pgTitle) document.title = CONFIG.SERVER_NAME + " | Minecraft Server";
 $('discordBtn').href = CONFIG.DISCORD;
 
 $('buyDiscord').href = CONFIG.DISCORD;
@@ -1310,7 +1351,7 @@ function annPost(p){
 }
 var popTried = false, remoteDone = false;
 function tryPopup(){
-  if(popTried || location.hash === '#admin') return;
+  if(popTried || curHash() === '#admin') return;
   popTried = true;
   const now = Date.now();
   const p = D.ann.find(x => { const a = x.start ? new Date(x.start.replace(' ', 'T')).getTime() : 0, z = x.end ? new Date(x.end.replace(' ', 'T')).getTime() : 0;
@@ -1388,7 +1429,7 @@ async function renderRoom(room){
     '<div class="ibody"><div id="mutedBox"></div><div id="msgList" class="msglist"><div class="iempty">Loading...</div></div><div class="hint">Press and hold a message for options</div><div id="msgBar"></div></div>';
   await loadRoom(true);
   clearInterval(roomTimer);
-  roomTimer = setInterval(() => { if(location.hash === '#p-' + room) loadRoom(false); else clearInterval(roomTimer); }, 1800);
+  roomTimer = setInterval(() => { if(curHash() === '#p-' + room) loadRoom(false); else clearInterval(roomTimer); }, 1800);
 }
 async function loadRoom(first){
   const room = ROOM.name; if(!room) return;
@@ -1454,7 +1495,7 @@ async function onRoomClick(e){
   if(b.closest('#msgSheet')) $('msgSheet').classList.remove('show');
   const op = b.dataset.rm, room = ROOM.name, id = b.dataset.id;
   const again = () => { ROOM.sig = ''; return loadRoom(false); };
-  if(op === 'nt'){ try{ if(await SB.ensure()) await SB.send('PATCH', 'notifications?id=eq.' + id, { read: true }); }catch(err){} location.hash = '#p-' + b.dataset.room; pollNotifs(); }
+  if(op === 'nt'){ try{ if(await SB.ensure()) await SB.send('PATCH', 'notifications?id=eq.' + id, { read: true }); }catch(err){} goHash('#p-' + b.dataset.room); pollNotifs(); }
   else if(op === 'ntall'){ try{ if(await SB.ensure()) await SB.send('PATCH', 'notifications?read=eq.false', { read: true }); }catch(err){} pollNotifs(); }
   else if(op === 'login') openLogin();
   else if(op === 'plus'){
@@ -1555,7 +1596,7 @@ function renderInfo(k){
   $('infoPage').innerHTML = '<div class="title"><div class="badge">' + P[0] + ' ' + P[1] + '</div><h1>' + P[1] + '</h1></div><div class="ibody">' +
     (h.trim() ? h : '<div class="iempty">Nothing here yet.</div>') + '</div>';
 }
-setInterval(() => { if(location.hash === '#p-events'){ try{ renderInfo('events'); }catch(e){} } }, 30000);
+setInterval(() => { if(curHash() === '#p-events'){ try{ renderInfo('events'); }catch(e){} } }, 30000);
 function applySite(){
   try{ buildNames(); }catch(e){}
   try{
@@ -1566,8 +1607,8 @@ function applySite(){
     }
   }catch(e){}
   const il = $('infoLinks'), IP = infoPages();
-  il.innerHTML = Object.keys(IP).filter(k => pageOn(k)).map(k => '<a href="#p-' + k + '">' + IP[k][0] + ' ' + IP[k][1] + '</a>').join('');
-  if(location.hash.indexOf('#p-') === 0){ const k = location.hash.slice(3); if(IP[k] && ['reviews', 'chat', 'report'].indexOf(k) < 0 && (pageOn(k) || isAdmin())) renderInfo(k); }
+  il.innerHTML = Object.keys(IP).filter(k => pageOn(k)).map(k => '<a href="' + pathOf('p-' + k) + '">' + IP[k][0] + ' ' + IP[k][1] + '</a>').join('');
+  if(curHash().indexOf('#p-') === 0){ const k = curHash().slice(3); if(IP[k] && ['reviews', 'chat', 'report'].indexOf(k) < 0 && (pageOn(k) || isAdmin())) renderInfo(k); }
   const s = D.season; applyTheme(s); animMode = s.anim || 'blocks';
   if(canvasReady) seedParticles();
   const sp = $('seasonPill'); sp.textContent = s.name ? '🏆 ' + s.name : ''; sp.style.display = s.name ? '' : 'none';
@@ -1745,7 +1786,7 @@ async function loadRemoteRetry(){
 // অ্যাডমিন প্যানেলে বদল করলে সবার সাইটে (অ্যাপসহ) কয়েক সেকেন্ডে দেখা যাবে
 function syncRemoteQuiet(){
   if(document.hidden) return;
-  if(location.hash === '#admin') return;                         // অ্যাডমিন সম্পাদনার মাঝে নয়
+  if(curHash() === '#admin') return;                         // অ্যাডমিন সম্পাদনার মাঝে নয়
   if(document.body.classList.contains('in-chat')) return;        // চ্যাটের মাঝে নয়
   loadRemote();
 }
@@ -2375,7 +2416,7 @@ function buildNames(){
   const mq = $('marquee'); mq.textContent = ''; mq.className = 'marquee mq-' + BG.anim;
   mq.style.setProperty('--mqs', { slow: 1.8, normal: 1, fast: .45 }[BG.speed]); mq.style.setProperty('--mqo', { faint: .04, normal: .09, bold: .18 }[BG.strength]);
   if(texts.length) for(let i = 0; i < 5; i++){ const d = document.createElement('div'); d.style.setProperty('--r', i); d.textContent = (texts[i % texts.length] + '  ✦  ').repeat(14); mq.appendChild(d); }
-  document.title = name + ' | Minecraft Server';
+  if(!window.__pgTitle) document.title = name + ' | Minecraft Server';
   const hn = document.querySelector('.logo span.eng'); if(hn) hn.textContent = name;
 }
 buildNames();
@@ -2603,7 +2644,7 @@ function finishLogin(n){
   try{ localStorage.setItem('mcUser', n); }catch(e){}
   closeLogin();
   renderUser();
-  if(/^#p-(chat|report|reviews)$/.test(location.hash)) route();
+  if(/^#p-(chat|report|reviews)$/.test(curHash())) route();
   showToast(isAdmin() ? '⚙️ এডমিন হিসেবে ঢুকেছ, ' + n : '✅ স্বাগতম, ' + n + '!');
 }
 async function doLogin(){
@@ -2670,8 +2711,8 @@ logoutBtn.onclick = () => {
   try{ localStorage.removeItem('mcUser'); }catch(e){}
   SB.clear();
   renderUser();
-  if(/^#p-(chat|report|reviews)$/.test(location.hash)) route();
-  if(location.hash === '#admin') location.hash = '#home';
+  if(/^#p-(chat|report|reviews)$/.test(curHash())) route();
+  if(curHash() === '#admin') goHash('#home');
   showToast('👋 লগআউট হয়েছে');
 };
 renderUser();
@@ -3663,7 +3704,7 @@ $('adminSave').onclick = async () => {
     if(!SB.hasSession()){
       try{ localStorage.removeItem('mcUser'); }catch(e){}
       renderUser();
-      location.hash = '#home';
+      goHash('#home');
       showToast('🔒 সেশন শেষ। আবার লগইন করো');
       setTimeout(openLogin, 400);
     }else showToast('⚠️ সংযোগে সমস্যা। আবার চেষ্টা করো');
@@ -3763,12 +3804,12 @@ const pages = {
 function route(){
   $('infoPage').classList.remove('chatroom'); document.body.classList.remove('in-chat');
   $('infoPage').style.top = ''; $('infoPage').style.height = '';
-  const key = location.hash.replace('#','');
+  const key = curHash().replace('#','');
   const ik = key.indexOf('p-') === 0 ? key.slice(2) : '';
   let active = (pages[key] && key !== 'info') ? key : 'home';
   if(ik && infoPages()[ik] && (pageOn(ik) || isAdmin())){ active = 'info'; renderInfo(ik); }
   if(active === 'admin'){
-    if(!canPanel()){ location.hash = '#home'; active = 'home'; }
+    if(!canPanel()){ goHash('#home'); active = 'home'; }
     else { A = clone(D); adminTab = ''; renderAdmin(); }
   }
   Object.keys(pages).forEach(k => { pages[k].style.display = (k === active) ? 'flex' : 'none'; });
@@ -3799,7 +3840,7 @@ route();
 // সার্ভার থেকে সবার জন্য সেভ করা ডেটা আনা
 loadRemoteRetry().then(() => {
   remoteDone = true;
-  if(location.hash === '#admin' && canPanel()){ A = clone(D); renderAdmin(); }
+  if(curHash() === '#admin' && canPanel()){ A = clone(D); renderAdmin(); }
 });
 
 $('annPop').addEventListener('click', e => { if(e.target.id === 'annPop' || e.target.id === 'annX') $('annPop').classList.remove('show'); });
