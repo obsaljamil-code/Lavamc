@@ -10,9 +10,10 @@
 <meta name="theme-color" content="#facc15">
 <script>window.__pgTitle=1;</script>
 <link rel="canonical" href="https://lavamc.dpdns.org/vote">
+<script>try{ if(/Googlebot|Google-InspectionTool|bingbot|AdsBot|Lighthouse|Chrome-Lighthouse/i.test(navigator.userAgent)) document.documentElement.className += " bot"; }catch(e){}</script>
 <script>
 /* ===== পরিষ্কার ঠিকানা (# ছাড়া): /store/ /rules/ ... ===== */
-var PATHS={home:'',rules:'rules',store:'store',vote:'vote',admin:'admin','p-ann':'announcements','p-reviews':'reviews','p-staff':'staff','p-links':'links','p-help':'help','p-siteinfo':'server-info','p-events':'events','p-community':'community','p-chat':'chat','p-report':'report'};
+var PATHS={home:'',rules:'rules',store:'store',vote:'vote',admin:'admin','p-ann':'announcements','p-reviews':'reviews','p-staff':'staff','p-links':'links','p-help':'help','p-siteinfo':'server-info','p-events':'events','p-community':'community','p-chat':'chat','p-report':'report','p-rewards':'rewards'};
 function pathOf(k){ return '/' + (PATHS[k] || ''); }
 function keyOfPath(p){ p = String(p).split('#')[0].split('?')[0].replace(/\/+$/,'').split('/').pop(); if(p === 'index.html') p = ''; for(var k in PATHS) if(PATHS[k] === p) return k; return null; }
 function curHash(){ return '#' + (keyOfPath(location.pathname) || 'home'); }
@@ -830,6 +831,30 @@ document.addEventListener('click', function(e){
     .rv{opacity:1;transform:none}
   }
 
+  /* সার্চ বটের জন্য লোডিং স্ক্রিন ও ফুটে-ওঠা অ্যানিমেশন বন্ধ, যাতে পেজ সাথে সাথে পুরো দেখা যায় */
+  .bot .splash{display:none !important}
+  .bot .rv{opacity:1 !important;transform:none !important}
+  .bot .page{animation:none !important}
+
+  /* ===== Rewards পেজ ===== */
+  .rwcoin{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+  .rwcoin .big{font-size:2.6rem;font-weight:800;color:var(--accent);animation:floaty 3s ease-in-out infinite}
+  .rwbar{height:10px;border-radius:10px;background:rgba(255,255,255,.1);overflow:hidden}
+  .rwbar i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s}
+  .rwad{position:relative;min-height:220px;border-radius:18px;border:1px dashed var(--accent);background:rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:18px}
+  .rwring{--p:0;width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;background:conic-gradient(var(--accent) calc(var(--p) * 1%),rgba(255,255,255,.12) 0)}
+  .rwring span{width:76px;height:76px;border-radius:50%;background:#101010;display:flex;align-items:center;justify-content:center}
+  .rwgain{position:fixed;left:50%;top:40%;translate:-50% 0;z-index:200;font-size:2rem;font-weight:800;color:var(--accent);pointer-events:none;animation:gainUp 1.6s ease-out forwards;text-shadow:0 0 20px var(--accent)}
+  @keyframes gainUp{0%{opacity:0;transform:translateY(20px) scale(.6)}20%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:translateY(-90px) scale(1)}}
+
+
+  .rwtiers{display:flex;flex-direction:column;gap:8px;max-height:330px;overflow-y:auto;padding:4px 2px;margin:6px 0}
+  .rwtier{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--border)}
+  .rwtier > div{flex:1;display:flex;flex-direction:column;gap:3px}
+  .rwtier b{font-size:1.15rem}.rwtier.ok{border-color:var(--accent);background:rgba(var(--acr),.1)}
+  .rwtier .ibtn{padding:9px 14px;font-size:.85rem;white-space:nowrap}
+  .rwlock{font-size:.8rem;opacity:.65;white-space:nowrap}
+
   /* ===== অ্যানিমেশন প্যাক ২: নামের অ্যানিমেশন ===== */
   @keyframes letterVar{from{opacity:0;transform:var(--lt,none);filter:var(--lf,none)}to{opacity:1;transform:none;filter:none}}
   .letters.once[class*="an-v-"] span{animation:letterVar var(--ld,.7s) var(--le,cubic-bezier(.2,.9,.3,1)) forwards;animation-delay:calc(var(--i) * var(--ls,.08s) + .9s)}
@@ -1629,9 +1654,9 @@ function applyTheme(s){
 }
 function infoPages(){ return {
   ann: ['📢', 'Announcements'], reviews: ['⭐', 'Reviews'], chat: ['💬', 'Chat'], report: ['🚩', 'Report'], staff: ['👥', 'Staff Team'], links: ['🔗', 'Links'], help: ['📖', 'Help'],
-  siteinfo: ['⚙️', 'Server Info'], events: ['📅', 'Events'], community: ['⭐', 'Community']
+  siteinfo: ['⚙️', 'Server Info'], events: ['📅', 'Events'], community: ['⭐', 'Community'], rewards: ['🪙', 'Rewards']
 }; }
-function pageOn(k){ return k === 'ann' ? D.ann.length > 0 : !!D.menu[k]; }
+function pageOn(k){ return k === 'ann' ? D.ann.length > 0 : (k === 'rewards' ? D.menu.rewards !== false : !!D.menu[k]); }
 function safeImg(u){ return /^(data:image\/|https?:\/\/)/i.test(u || ''); }
 function annPost(p){
   return '<b>' + esc(p.title) + '</b>' + (p.date ? '<small>' + esc(p.date) + '</small>' : '') +
@@ -1820,6 +1845,93 @@ function burstConfetti(host){
   }
 }
 
+
+// ===== Rewards: ভিডিও দেখে কয়েন =====
+var RW = { st: null, timer: 0, tick: 0 };
+function dhakaLeft(){ var n = Date.now(), d = 86400000, nx = Math.floor((n + 6 * 3600000) / d) * d - 6 * 3600000 + d, s = Math.max(0, Math.floor((nx - n) / 1000)); return String(Math.floor(s / 3600)).padStart(2, '0') + ':' + String(Math.floor(s % 3600 / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+async function renderRewards(){
+  clearInterval(RW.timer); clearInterval(RW.tick);
+  $('infoPage').innerHTML = '<div class="title"><div class="badge">🪙 Rewards</div><h1>Rewards</h1><p>Watch a short video, get coins. A new day starts at 12 AM (Bangladesh time).</p></div><div class="ibody" id="rwBody"><div class="iempty">Loading...</div></div>';
+  if(!getUser() || !SB.hasSession()){ $('rwBody').innerHTML = '<div class="icard" style="text-align:center">Log in to earn coins.<div class="ibtns" style="justify-content:center"><button class="ibtn" data-rw="login">Log in</button></div></div>'; return; }
+  try{ if(!(await SB.ensure())) throw new Error('x'); RW.st = await walletRpc('reward_state', {}); }catch(e){ RW.st = null; }
+  drawRewards();
+}
+function drawRewards(msg){
+  var S = RW.st, box = $('rwBody'); if(!box) return;
+  if(!S || !S.ok){ box.innerHTML = '<div class="iempty">Could not load. Try again later.</div>'; return; }
+  var pct = S.limit ? Math.round(S.used / S.limit * 100) : 0, h = '';
+  h += '<div class="icard rwcoin"><small>Your coins</small><div class="big">🪙 <span id="rwCoins">' + fmtMoney(S.coins) + '</span></div></div>';
+  if(!S.enabled) h += '<div class="icard" style="text-align:center">Rewards are off right now. Please check again later.</div>';
+  else{
+    h += '<div class="icard"><b>Today: ' + S.used + ' / ' + S.limit + ' videos</b><div class="rwbar"><i style="width:' + pct + '%"></i></div><small>Each video gives ' + fmtMoney(S.per_ad) + ' coins.</small></div>';
+    if(S.left <= 0) h += '<div class="icard" style="text-align:center"><b>Today\'s limit is finished 🎉</b><small>Come back in <span id="rwReset">' + dhakaLeft() + '</span></small></div>';
+    else h += '<div class="rwad" id="rwAd"><div style="font-size:2.2rem">🎬</div><div>' + (msg ? esc(msg) : 'Watch a short video to get ' + fmtMoney(S.per_ad) + ' coins') + '</div><button class="ibtn" data-rw="start">▶ Watch video</button></div>';
+  }
+  h += rwConvHtml(S);
+  box.innerHTML = h;
+  if(S.enabled && S.left <= 0) RW.timer = setInterval(function(){ var r = $('rwReset'); if(!r){ clearInterval(RW.timer); return; } r.textContent = dhakaLeft(); if(r.textContent === '00:00:00') renderRewards(); }, 1000);
+}
+async function rwStart(){
+  var ad = $('rwAd'); if(!ad) return;
+  try{
+    var r = await walletRpc('reward_start', {});
+    if(!r.ok){
+      if(r.err === 'cooldown'){ showToast('⏳ Wait ' + r.cooldown + ' seconds, then watch the next one'); return; }
+      if(r.err === 'limit'){ await renderRewards(); return; }
+      if(r.err === 'login'){ showToast('🔒 Please log in again'); return; }
+      showToast('⚠️ Not available right now'); return;
+    }
+    var left = r.wait, total = r.wait;
+    // এখানে পরে বাস্তব বিজ্ঞাপন (AdSense rewarded) বসবে
+    ad.innerHTML = '<div class="rwring" id="rwRing"><span id="rwSec">' + left + '</span></div><div>Video is playing...<br><small style="opacity:.7">Keep this page open. Your video ad will show here.</small></div>';
+    var ring = $('rwRing');
+    clearInterval(RW.tick);
+    RW.tick = setInterval(async function(){
+      if(!$('rwAd')){ clearInterval(RW.tick); return; }
+      if(document.hidden) return;
+      left--; var s = $('rwSec'); if(s) s.textContent = Math.max(0, left); if(ring) ring.style.setProperty('--p', Math.round((total - left) / total * 100));
+      if(left > 0) return;
+      clearInterval(RW.tick);
+      var c = await walletRpc('reward_claim', { p_id: r.id });
+      if(c.ok){
+        var g = document.createElement('div'); g.className = 'rwgain'; g.textContent = '+' + fmtMoney(c.gained) + ' 🪙'; document.body.appendChild(g); setTimeout(function(){ g.remove(); }, 1700);
+        RW.st = await walletRpc('reward_state', {}); drawRewards('Great! You got ' + fmtMoney(c.gained) + ' coins.');
+      }else if(c.err === 'early'){ showToast('⏳ Please wait a little more'); drawRewards(); }
+      else{ showToast('⚠️ Could not give coins. Try again'); drawRewards(); }
+    }, 1000);
+  }catch(e){ showToast('⚠️ Network problem. Try again'); }
+}
+
+var RW_TIERS = [1, 2, 3, 5, 10, 20, 30, 50, 100, 200, 300, 500];
+function rwConvHtml(S){
+  if(!(S.rate > 0)) return '';
+  var capLeft = Math.max(0, S.taka_cap - S.taka_today), h = '<div class="icard"><b>🔁 Convert coins to Taka</b><small>' + fmtMoney(S.rate) + ' coins = ৳1. You can convert up to ৳' + fmtMoney(S.taka_cap) + ' per day (left today: ৳' + fmtMoney(capLeft) + '). Pick a row below, or type your own amount.</small><div class="rwtiers">';
+  RW_TIERS.forEach(function(tk){
+    var need = Math.round(tk * S.rate), have = Number(S.coins), ok = have >= need && need >= S.min_convert && tk <= capLeft, pct = Math.min(100, Math.floor(have / need * 100));
+    h += '<div class="rwtier' + (ok ? ' ok' : '') + '"><div><b>৳' + tk + '</b><small>' + fmtMoney(need) + ' coins</small><div class="rwbar"><i style="width:' + pct + '%"></i></div></div>' +
+      (ok ? '<button class="ibtn" data-rw="convert" data-c="' + need + '">Get ৳' + tk + '</button>' : '<span class="rwlock">' + (need < S.min_convert ? 'Min ' + fmtMoney(S.min_convert) + ' coins' : tk > capLeft ? 'Daily limit' : '🔒 ' + pct + '%') + '</span>') + '</div>';
+  });
+  h += '</div><b style="margin-top:6px">✏️ Your own amount</b><input type="number" id="rwConv" min="' + S.min_convert + '" step="1" inputmode="numeric" placeholder="How many coins? (min ' + fmtMoney(S.min_convert) + ')" style="padding:12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit">' +
+    '<small id="rwConvPrev">You have ' + fmtMoney(S.coins) + ' coins = ৳' + fmtMoney(Math.floor(S.coins / S.rate * 100) / 100) + '</small><div class="ibtns"><button class="ibtn" data-rw="convert">Convert my amount</button></div></div>';
+  return h;
+}
+document.addEventListener('input', function(e){
+  if(!e.target || e.target.id !== 'rwConv' || !RW.st) return;
+  var n = Math.floor(Number(e.target.value)) || 0, p = $('rwConvPrev'); if(p) p.textContent = n + ' coins = ৳' + fmtMoney(Math.floor(n / RW.st.rate * 100) / 100);
+});
+async function rwConvert(c){
+  var inp = $('rwConv'); var n = c ? Math.floor(Number(c)) : (inp ? Math.floor(Number(inp.value)) : 0);
+  if(!(n >= 1)){ showToast('⚠️ Enter how many coins'); return; }
+  if(!(await askConfirm('Convert ' + n + ' coins to wallet money?', 'Convert'))) return;
+  var r = await walletRpc('reward_convert', { p_coins: n });
+  if(r.ok){ showToast('✅ ৳' + fmtMoney(r.taka) + ' added to your wallet'); try{ refreshWallet(); }catch(e){} RW.st = await walletRpc('reward_state', {}); drawRewards(); }
+  else showToast(r.err === 'min' ? '⚠️ Minimum ' + fmtMoney(r.min) + ' coins' : r.err === 'cap' ? '⚠️ Daily convert limit reached' : r.err === 'coins' ? '⚠️ Not enough coins' : r.err === 'off' ? '⚠️ Converting is off right now' : '⚠️ Could not convert. Try again');
+}
+document.addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('[data-rw]') : null; if(!b) return;
+  if(b.dataset.rw === 'login') openLogin(); else if(b.dataset.rw === 'start') rwStart(); else if(b.dataset.rw === 'convert') rwConvert(b.dataset.c);
+});
+
 var lpTimer = 0, lpStart = null;
 function lpCancel(){ clearTimeout(lpTimer); }
 $('infoPage').addEventListener('pointerdown', e => { const m = e.target.closest('.msg'); if(!m || e.target.closest('a')) return; lpStart = { x: e.clientX, y: e.clientY }; lpTimer = setTimeout(() => showMsgSheet(m.dataset.id), 500); });
@@ -1902,6 +2014,7 @@ $('msgSheet').addEventListener('click', onRoomClick);
 function renderInfo(k){
   if(k === 'reviews'){ renderReviews(); return; }
   if(k === 'chat' || k === 'report'){ renderRoom(k); return; }
+  if(k === 'rewards'){ renderRewards(); return; }
   const P = infoPages()[k], M = {}, e = esc;
   const card = h => '<div class="icard">' + h + '</div>';
   const sec = t => '<h2 class="isec">' + t + '</h2>';
@@ -3454,14 +3567,33 @@ $('adminBody').addEventListener('click', async function(e){
 
 // ===== ওয়ালেট ম্যানেজার (অ্যাডমিন / অনুমতিপ্রাপ্ত স্টাফ) =====
 function tabWallets(){
-  setTimeout(function(){ loadWallets(''); loadWalletHistory(); }, 0);
+  setTimeout(function(){ loadWallets(''); loadWalletHistory(); loadRwCfg(); }, 0);
   return '<div class="acard"><h3>👛 ওয়ালেট ম্যানেজার</h3><p class="note">সবার ওয়ালেটের টাকা দেখো, কাউকে টাকা যোগ করো বা কেটে নাও। প্রতিটা পরিবর্তনের কারণ লিখতে হয়, আর ইউজার নিজের "আমার অর্ডার"-এ সেটা দেখতে পায়।<br>সবার মোট ব্যালেন্স: <b id="wmTotal">...</b></p>' +
     '<label>নাম খোঁজো<input type="text" id="wmQ" placeholder="যেমন obs"></label><button class="aadd" data-wm="search">🔍 খোঁজো</button><div id="wmList" class="note">Loading...</div></div>' +
     '<div class="acard"><h3>✏️ টাকা যোগ / কাটা</h3><label>ইউজারের নাম (উপরের তালিকায় চাপলেও বসে যাবে)<input type="text" id="wmName" maxlength="24" autocomplete="off"></label>' +
     '<label>টাকা (সংখ্যা)<input type="number" id="wmAmt" min="1" step="1" inputmode="decimal"></label>' +
     '<label>কারণ (ইউজার এটা দেখতে পাবে)<input type="text" id="wmNote" maxlength="100" placeholder="যেমন: ভুল কেনার ফেরত"></label>' +
     '<div class="ibtns"><button class="aadd" data-wm="add">➕ যোগ করো</button><button class="aadd" data-wm="sub" style="border-color:#ef4444;color:#fca5a5">➖ কেটে নাও</button></div></div>' +
-    '<div class="acard"><h3>📜 ওয়ালেট লেনদেন</h3><div id="walHist" class="note">Loading...</div></div>';
+    '<div class="acard"><h3>📜 ওয়ালেট লেনদেন</h3><div id="walHist" class="note">Loading...</div></div>' +
+    '<div class="acard"><h3>🪙 Rewards (ভিডিও দেখে কয়েন)</h3><p class="note">ইউজার ভিডিও দেখলে এই কয়েন পাবে। কয়েন আসল টাকা না, শুধু সাইটের কয়েন। দিনের সীমা শেষ হলে পরদিন বাংলাদেশ সময় রাত ১২টায় আবার শুরু।</p><div id="rwCfg" class="note">Loading...</div></div>';
+}
+async function loadRwCfg(){
+  const box = $('rwCfg'); if(!box) return;
+  try{
+    if(!(await SB.ensure())) throw new Error('x');
+    const c = await walletRpc('reward_cfg_get', {});
+    if(!c.ok) throw new Error('perm');
+    box.innerHTML = '<label><input type="checkbox" id="rwOn"' + (c.enabled ? ' checked' : '') + '> Rewards চালু</label>' +
+      '<label>প্রতি ভিডিওতে কয়েন<input type="number" id="rwPer" min="0" max="1000" step="1" value="' + c.per_ad + '"></label>' +
+      '<label>দিনে সর্বোচ্চ কয়টা ভিডিও (১-১০০)<input type="number" id="rwLim" min="1" max="100" step="1" value="' + c.limit + '"></label>' +
+      '<label>একটা ভিডিও কত সেকেন্ড (৫-১২০)<input type="number" id="rwWait" min="5" max="120" step="1" value="' + c.wait + '"></label>' +
+      '<label>দুই ভিডিওর মাঝে বিরতি (সেকেন্ড)<input type="number" id="rwCool" min="0" max="600" step="1" value="' + c.cooldown + '"></label>' +
+      '<label>কয়েন → টাকা: কত কয়েনে ৳১ (০ = কনভার্ট বন্ধ)<input type="number" id="rwRate" min="0" step="1" value="' + c.rate + '"></label>' +
+      '<label>কনভার্ট করতে সর্বনিম্ন কয়েন<input type="number" id="rwMin" min="1" step="1" value="' + c.min_convert + '"></label>' +
+      '<label>একজন দিনে সর্বোচ্চ কত টাকা কনভার্ট করতে পারবে<input type="number" id="rwCap" min="0" step="1" value="' + c.taka_cap + '"></label>' +
+      '<div class="ibtns"><button class="aadd" data-wm="rwSave">💾 Save</button></div>' +
+      '<p class="note">আজ ' + c.today_views + 'টা ভিডিও দেখা হয়েছে। মোট কয়েন দেওয়া হয়েছে: ' + fmtMoney(c.total_coins) + '। আজ ওয়ালেটে গেছে: ৳' + fmtMoney(c.taka_paid_today) + '</p><p class="note">⚠️ কনভার্ট চালু করার আগে হিসাব করে নিন: ১ কয়েনের দাম × ইউজার কত কয়েন পাচ্ছে, তা বিজ্ঞাপন থেকে আপনার আয়ের চেয়ে কম হতে হবে। ওয়ালেটের টাকা দিয়ে র‍্যাংক কেনা যায়, তাই এটা আসল টাকার মতো।</p>';
+  }catch(e){ box.textContent = 'লোড হয়নি। আবার লগইন করে দেখো।'; }
 }
 async function loadWallets(q){
   const box = $('wmList'); if(!box) return;
@@ -3479,6 +3611,10 @@ $('adminBody').addEventListener('click', async function(e){
   const op = b.dataset.wm;
   if(op === 'pick'){ $('wmName').value = b.dataset.name; $('wmAmt').focus(); return; }
   if(op === 'search'){ loadWallets($('wmQ').value); return; }
+  if(op === 'rwSave'){
+    const r = await walletRpc('reward_cfg_set', { p_enabled: $('rwOn').checked, p_per_ad: Number($('rwPer').value), p_limit: parseInt($('rwLim').value, 10), p_wait: parseInt($('rwWait').value, 10), p_cool: parseInt($('rwCool').value, 10), p_rate: Number($('rwRate').value), p_min: Number($('rwMin').value), p_cap: Number($('rwCap').value) });
+    showToast(r.ok ? '✅ Rewards সেভ হয়েছে' : '⚠️ সেভ হয়নি (পারমিশন নেই?)'); if(r.ok) loadRwCfg(); return;
+  }
   if(op !== 'add' && op !== 'sub') return;
   const name = ($('wmName').value || '').trim(), amt = Number($('wmAmt').value), note = ($('wmNote').value || '').trim();
   if(!name){ showToast('⚠️ ইউজারের নাম লেখো'); return; }
