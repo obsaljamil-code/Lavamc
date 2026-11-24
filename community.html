@@ -609,9 +609,9 @@ document.addEventListener('click', function(e){
   .plus{background:rgba(255,255,255,.12);color:var(--text)}
   #msgBar select{margin-top:8px}
   .msg{-webkit-touch-callout:none;user-select:none}
-  .sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:70;display:none;align-items:flex-end;justify-content:center}
+  .sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);z-index:70;display:none;align-items:center;justify-content:center;padding:18px}
   .sheet.show{display:flex}
-  .sheetbox{width:100%;max-width:480px;background:#141414;border-radius:20px 20px 0 0;padding:16px;display:flex;flex-direction:column;gap:10px}
+  .sheetbox{width:100%;max-width:340px;background:#141414;border:1px solid var(--border);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:10px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:popIn .28s cubic-bezier(.2,1.3,.4,1) both}
   .sheetbox button{padding:14px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit;cursor:pointer}
   .perms{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.pchk{font-size:.85rem;color:var(--text)}
   .hint{text-align:center;color:var(--muted);font-size:.8rem;margin-top:4px}
@@ -711,6 +711,10 @@ document.addEventListener('click', function(e){
 
 
   /* ===== আমার অর্ডার ===== */
+  .xclose{position:sticky;top:0;z-index:6;display:flex;align-items:center;justify-content:center;margin:-10px -8px -32px auto;width:34px;height:34px;border-radius:50%;border:none;background:#ef4444;color:#fff;font-size:1.05rem;font-weight:800;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(239,68,68,.5);transition:transform .2s,background .2s}
+  .xclose:hover{background:#dc2626;transform:rotate(90deg) scale(1.1)}
+  .xclose:active{transform:scale(.88)}
+  .walletbox{max-height:90vh;overflow-y:auto}
   .ordersbox{max-width:440px !important;text-align:left !important;max-height:85vh;overflow-y:auto}
   .ordersbox h3{text-align:center;margin-bottom:4px}
   .ordersbox .osub{text-align:center;color:var(--muted);font-size:.82rem;margin-bottom:12px}
@@ -721,6 +725,110 @@ document.addEventListener('click', function(e){
   .otag.done{background:#1a8f5a}.otag.pending{background:#b7791f}.otag.success{background:#1a8f5a}
   .ordersbox .oclose{width:100%;margin-top:6px;padding:12px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:700;font-size:1rem;background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
   .mcnote{margin:10px 0 4px;padding:9px 12px;border-radius:12px;font-size:.82rem;line-height:1.6;text-align:left;color:#fde68a;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.35)}
+
+
+  /* ===== অ্যানিমেশন প্যাক ===== */
+  @keyframes popIn{from{transform:scale(.82) translateY(14px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  @keyframes slideInR{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+  @keyframes shine{0%{transform:translateX(-120%) skewX(-20deg)}60%,100%{transform:translateX(220%) skewX(-20deg)}}
+  @keyframes wiggle{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-12deg)}92%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}98%{transform:rotate(3deg)}}
+  @keyframes bellRing{0%,100%{transform:rotate(0)}10%{transform:rotate(16deg)}20%{transform:rotate(-14deg)}30%{transform:rotate(10deg)}40%{transform:rotate(-8deg)}50%{transform:rotate(4deg)}60%{transform:none}}
+  @keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.22);color:#4ade80}100%{transform:scale(1)}}
+  @keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+  @keyframes drawTick{to{stroke-dashoffset:0}}
+  @keyframes ringOut{from{transform:scale(.7);opacity:.9}to{transform:scale(2.3);opacity:0}}
+  @keyframes confetti{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 70px)) rotate(var(--r));opacity:0}}
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+  @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.18)}}
+  @keyframes borderGlow{0%,100%{box-shadow:0 0 0 rgba(var(--acr),0)}50%{box-shadow:0 0 22px rgba(var(--acr),.28)}}
+  @keyframes rippleOut{to{transform:scale(1);opacity:0}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  @keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes cfmOut{to{opacity:0}}
+
+  /* 1 হেডার নামে */
+  header{animation:slideDown .5s cubic-bezier(.2,.9,.3,1) both}
+  /* 2 বাটন হোভার/প্রেস */
+  button,.backbtn,.buybtn{transition:transform .18s,box-shadow .25s,background .25s,filter .2s}
+  button:not(:disabled):hover,.backbtn:hover,.buybtn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+  button:not(:disabled):active,.backbtn:active,.buybtn:active{transform:scale(.95)}
+  /* 3 শাইন সুইপ */
+  .modal .ok,.buybtn,.vfybox button,.loginbtn{position:relative;overflow:hidden}
+  .modal .ok::after,.buybtn::after,.vfybox button::after,.loginbtn::after{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:shine 3.2s ease-in-out infinite;pointer-events:none}
+  /* 4 রিপল */
+  .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);animation:rippleOut .6s ease-out forwards;pointer-events:none}
+  /* 5 ওয়ালেট আইকন ঝাঁকুনি + 6 ব্যালেন্স বাম্প */
+  .wallet-btn .wallet-icon{animation:wiggle 5s ease-in-out infinite;transform-origin:50% 80%}
+  .wallet-btn.bump,.bump{animation:bump .6s ease}
+  .wallet-btn:hover{box-shadow:0 0 18px rgba(255,255,255,.25)}
+  /* 7 বেল */
+  .bell:has(b:not(:empty)){animation:bellRing 2.6s ease-in-out infinite;transform-origin:50% 10%}
+  /* 8 মডাল/পপআপ ওপেন */
+  .modal-bg.show{animation:fadeIn .22s ease}
+  .modal-bg.show .modal{animation:popIn .32s cubic-bezier(.2,1.3,.4,1) both}
+  .vfy.show{animation:fadeIn .2s ease}
+  .vfy.show .vfybox{animation:popIn .35s cubic-bezier(.2,1.3,.4,1) both}
+  /* 9 কনফার্ম বক্স */
+  .cfm-bg{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);animation:fadeIn .18s ease}
+  .cfm-bg.out{animation:cfmOut .16s ease forwards}
+  .cfm{width:100%;max-width:330px;padding:24px 20px 18px;border-radius:22px;text-align:center;background:#141414;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.65);animation:popIn .3s cubic-bezier(.2,1.3,.4,1) both}
+  .cfm-ic{font-size:2.2rem;margin-bottom:6px;animation:floaty 1.6s ease-in-out infinite}
+  .cfm p{color:var(--text);line-height:1.6;margin-bottom:16px;white-space:pre-line}
+  .cfm-row{display:flex;gap:10px}
+  .cfm-row button{flex:1;padding:12px;border-radius:12px;font:inherit;font-weight:700;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,.07);color:var(--text)}
+  .cfm-row .cfm-yes{background:#ef4444;border-color:#ef4444;color:#fff}
+  /* 10 ড্রয়ার আইটেম একটা একটা করে */
+  .drawer.open a,.drawer.open #infoLinks a{animation:slideInR .4s cubic-bezier(.2,.9,.3,1) both}
+  .drawer.open a:nth-of-type(2){animation-delay:.05s}.drawer.open a:nth-of-type(3){animation-delay:.1s}.drawer.open a:nth-of-type(4){animation-delay:.15s}
+  .drawer.open a:nth-of-type(5){animation-delay:.2s}.drawer.open a:nth-of-type(6){animation-delay:.25s}.drawer.open a:nth-of-type(n+7){animation-delay:.3s}
+  /* 11 পেজ বদলালে */
+  .page{animation:fadeUp .45s cubic-bezier(.2,.9,.3,1) both}
+  /* 12 কার্ড স্ক্রল রিভিল */
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.9,.3,1)}
+  .rv.in{opacity:1;transform:none}
+  /* 13 Rank কার্ড হোভার */
+  .rankcard{transition:transform .3s cubic-bezier(.2,.9,.3,1),box-shadow .3s,border-color .3s}
+  .rankcard:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 14px 34px rgba(var(--acr),.22);border-color:var(--accent)}
+  .rankimg{transition:transform .5s}.rankcard:hover .rankimg{transform:scale(1.06)}
+  /* 14 ভোট/রুল কার্ড হোভার */
+  .voteitem,.rulecard,.icard{transition:transform .25s,border-color .25s,box-shadow .25s}
+  .voteitem:hover,.rulecard:hover,.icard:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 26px rgba(0,0,0,.35)}
+  /* 15 ইনপুট ফোকাস গ্লো */
+  input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(var(--acr),.22);transition:box-shadow .25s}
+  /* 16 চ্যাট মেসেজ ঢোকা */
+  .msg{animation:msgIn .3s ease both}
+  /* 17 টোস্ট বাউন্স */
+  .toast.show{animation:popIn .35s cubic-bezier(.2,1.5,.4,1) both}
+  /* 18 সফল টিক */
+  .vicon.ok{position:relative;animation:vpop .55s cubic-bezier(.2,1.5,.4,1) both}
+  .vicon.ok .tk{stroke-dasharray:40;stroke-dashoffset:40;animation:drawTick .5s .35s ease forwards}
+  .vicon.ok .ring{position:absolute;inset:0;border-radius:50%;border:3px solid #22c55e;animation:ringOut .9s .2s ease-out both}
+  .vicon .cf{position:absolute;left:50%;top:50%;width:8px;height:12px;border-radius:2px;pointer-events:none;animation:confetti 1s ease-out forwards}
+  /* 19 ব্যর্থ হলে ঝাঁকুনি */
+  .vicon.no{animation:vpop .5s cubic-bezier(.2,1.5,.4,1) both,shake .6s .5s ease}
+  /* 20 ওয়ালেট স্টেপ */
+  .w-step{transition:all .35s}.w-step.active{animation:borderGlow 2s ease-in-out infinite}
+  /* 21 ফুটার/লোগো ঘোরা, হোম লোগো ভাসা */
+  .home-logo,#homePage img.beLogo{animation:floaty 3.5s ease-in-out infinite}
+  /* 22 অ্যাডমিন প্যানেল ব্যাকগ্রাউন্ড */
+  body.on-admin::before,body.on-admin::after{content:"";position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(70px);opacity:.35}
+  body.on-admin::before{width:46vmax;height:46vmax;left:-12vmax;top:-10vmax;background:radial-gradient(circle,rgba(var(--acr),.55),transparent 65%);animation:orbFloat 14s ease-in-out infinite}
+  body.on-admin::after{width:40vmax;height:40vmax;right:-14vmax;bottom:-12vmax;background:radial-gradient(circle,rgba(56,189,248,.45),transparent 65%);animation:orbFloat 18s ease-in-out infinite reverse}
+  #adminPage{position:relative;z-index:1}
+  /* 23 অ্যাডমিন কার্ড ও ট্যাব */
+  .acard{animation:fadeUp .45s ease both;transition:border-color .3s,box-shadow .3s}
+  .acard:hover{border-color:var(--accent);animation:borderGlow 2.4s ease-in-out infinite}
+  #adminTabs button,#adminTabs a{transition:transform .2s,background .25s,color .25s}
+  #adminTabs button:hover{transform:translateY(-3px) scale(1.03)}
+  /* 24 কপি/স্ট্যাটাস ডট */
+  .ptag,.otag{animation:fadeIn .4s ease both}
+  .otag.pending{animation:borderGlow 1.8s ease-in-out infinite}
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+    .rv{opacity:1;transform:none}
+  }
 
   /* ===== ওয়ালেট স্টাইলিং ও এমওটিডি স্ক্রলিং ===== */
   .net-banner {
@@ -849,7 +957,7 @@ document.addEventListener('click', function(e){
 <header>
   <div class="hleft">
     <a class="logo" href="/"><img class="beLogo" id="headLogo" alt="logo"><span class="eng">Lavamc</span></a>
-    <button class="wallet-btn" id="headerWalletBtn" type="button" title="ওয়ালেট ব্যালেন্স">
+    <button class="wallet-btn" id="headerWalletBtn" type="button" title="Wallet balance">
       <span class="wallet-icon"><svg class="wsvg" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><defs><linearGradient id="wgBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9b9b9"/><stop offset="1" stop-color="#4a4a4a"/></linearGradient><linearGradient id="wgFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient><linearGradient id="wgClasp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#8d8d8d"/></linearGradient></defs><ellipse cx="32" cy="57" rx="22" ry="3.5" fill="#000" opacity=".45"/><path d="M10 20 L46 12 Q50 11 50 15 L50 20 Z" fill="url(#wgFlap)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><rect x="7" y="20" width="50" height="34" rx="7" fill="url(#wgBody)" stroke="#fff" stroke-width="1.8"/><path d="M10 25 Q10 22.5 13 22.5 L50 22.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/><path d="M9 50 Q9 53 12 53 L52 53" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" opacity=".45"/><rect x="38" y="30" width="22" height="14" rx="5" fill="url(#wgFlap)" stroke="#fff" stroke-width="1.8"/><circle cx="46" cy="37" r="3.4" fill="url(#wgClasp)" stroke="#000" stroke-width=".8"/><circle cx="45.2" cy="36.2" r="1" fill="#fff"/></svg></span>
       <span>৳<span id="headerWalletBal">0</span></span>
     </button>
@@ -864,19 +972,19 @@ document.addEventListener('click', function(e){
 
 <div class="overlay" id="overlay"></div>
 <nav class="drawer" id="drawer">
-  <h3>মেনু</h3>
+  <h3>MENU</h3>
   <a href="javascript:void(0)" id="drawerWalletLink" style="border-color:rgba(var(--acr),.4);background:rgba(var(--acr),.08);margin-bottom:12px">
     <span style="display:inline-flex;background:#111;border-radius:10px;padding:5px"><svg class="wsvg" viewBox="0 0 64 64" width="28" height="28" aria-hidden="true"><defs><linearGradient id="wgBody2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9b9b9"/><stop offset="1" stop-color="#4a4a4a"/></linearGradient><linearGradient id="wgFlap2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient><linearGradient id="wgClasp2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#8d8d8d"/></linearGradient></defs><ellipse cx="32" cy="57" rx="22" ry="3.5" fill="#000" opacity=".45"/><path d="M10 20 L46 12 Q50 11 50 15 L50 20 Z" fill="url(#wgFlap2)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><rect x="7" y="20" width="50" height="34" rx="7" fill="url(#wgBody2)" stroke="#fff" stroke-width="1.8"/><path d="M10 25 Q10 22.5 13 22.5 L50 22.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/><path d="M9 50 Q9 53 12 53 L52 53" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" opacity=".45"/><rect x="38" y="30" width="22" height="14" rx="5" fill="url(#wgFlap2)" stroke="#fff" stroke-width="1.8"/><circle cx="46" cy="37" r="3.4" fill="url(#wgClasp2)" stroke="#000" stroke-width=".8"/><circle cx="45.2" cy="36.2" r="1" fill="#fff"/></svg></span>
     <div>
-      <b style="color:var(--accent)">ওয়ালেট রিচার্জ (Wallet)</b>
-      <div style="font-size:.8rem;color:var(--muted)">ব্যালেন্স: ৳<span id="drawerWalletBal">0</span></div>
+      <b style="color:var(--accent)">Wallet Recharge</b>
+      <div style="font-size:.8rem;color:var(--muted)">Balance: ৳<span id="drawerWalletBal">0</span></div>
     </div>
   </a>
-  <a href="javascript:void(0)" id="drawerOrdersLink" style="display:none;border-color:rgba(var(--acr),.4);margin-bottom:12px">🧾 <div><b style="color:var(--accent)">আমার অর্ডার ও হিস্টোরি</b><div style="font-size:.8rem;color:var(--muted)">কী কিনেছ, Rank এসেছে কিনা</div></div></a>
-  <a href="/">🏠 হোম</a>
+  <a href="javascript:void(0)" id="drawerOrdersLink" style="display:none;border-color:rgba(var(--acr),.4);margin-bottom:12px">🧾 <div><b style="color:var(--accent)">My Orders &amp; History</b><div style="font-size:.8rem;color:var(--muted)">What you bought &amp; rank status</div></div></a>
+  <a href="/">🏠 Home</a>
   <a href="/rules">🛡️ Server Rules</a>
   <a href="/store">🛒 Store</a>
-  <a href="/vote">🗳️ ভোট লিংক</a>
+  <a href="/vote">🗳️ Vote Links</a>
   <div id="infoLinks" style="display:contents"></div>
   <a class="adminlink" id="adminLink" href="/admin" style="display:none">⚙️ Admin Panel</a>
 </nav>
@@ -1402,7 +1510,7 @@ $('infoPage').addEventListener('click', async e => {
     }catch(err){ showToast('⚠️ Could not save your review'); b.disabled = false; }
   }
   else if(op === 'mydel' || op === 'del'){
-    if(!confirm('Delete this review?')) return;
+    if(!(await askConfirm('Delete this review?'))) return;
     if(!(await SB.ensure())){ showToast('🔒 Session ended. Log in again'); return; }
     try{ await SB.send('DELETE', 'reviews?uid=eq.' + encodeURIComponent(op === 'del' ? b.dataset.uid : SB.sub())); showToast('🗑️ Deleted'); renderReviews(); }
     catch(err){ showToast('⚠️ Could not delete'); }
@@ -1471,6 +1579,67 @@ function showMsgSheet(id){
   $('msgSheet').innerHTML = '<div class="sheetbox"><b>' + esc(m.name) + '</b>' + h + '<button data-rm="close">Cancel</button></div>';
   $('msgSheet').classList.add('show');
 }
+
+// ===== সুন্দর কনফার্ম বক্স (মাঝখানে) =====
+function askConfirm(msg, okText){
+  return new Promise(function(res){
+    var bg = document.createElement('div'); bg.className = 'cfm-bg';
+    bg.innerHTML = '<div class="cfm"><div class="cfm-ic">⚠️</div><p></p><div class="cfm-row"><button class="cfm-no" type="button">Cancel</button><button class="cfm-yes" type="button"></button></div></div>';
+    bg.querySelector('p').textContent = String(msg);
+    var mm = String(msg); bg.querySelector('.cfm-yes').textContent = okText || (/Reset/.test(mm) ? 'Reset' : /চালাবো/.test(mm) ? 'Run' : /নিশ্চিত/.test(mm) ? 'Confirm' : 'Delete');
+    function done(v){ bg.classList.add('out'); setTimeout(function(){ bg.remove(); }, 160); document.removeEventListener('keydown', key); res(v); }
+    function key(e){ if(e.key === 'Escape') done(false); }
+    bg.addEventListener('click', function(e){ if(e.target === bg) done(false); });
+    bg.querySelector('.cfm-no').onclick = function(){ done(false); };
+    bg.querySelector('.cfm-yes').onclick = function(){ done(true); };
+    document.addEventListener('keydown', key);
+    document.body.appendChild(bg);
+    bg.querySelector('.cfm-yes').focus();
+  });
+}
+// ===== লাল ✕ বাটন =====
+document.addEventListener('click', function(e){
+  var x = e.target.closest ? e.target.closest('.xclose') : null; if(!x) return;
+  var bg = x.closest('.modal-bg'); if(!bg) return;
+  if(bg.id === 'ordersBg') closeOrders(); else if(bg.id === 'walletBg') closeWallet(); else bg.classList.remove('show');
+});
+// ===== বাটনে রিপল এফেক্ট =====
+document.addEventListener('pointerdown', function(e){
+  var b = e.target.closest ? e.target.closest('button, .buybtn, .backbtn, .drawer a, .ibtn') : null;
+  if(!b || b.disabled || b.classList.contains('xclose') || b.classList.contains('menu-btn')) return;
+  var r = b.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2;
+  var d = document.createElement('span'); d.className = 'ripple';
+  d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (e.clientX - r.left - s / 2) + 'px;top:' + (e.clientY - r.top - s / 2) + 'px';
+  if(getComputedStyle(b).position === 'static') b.style.position = 'relative';
+  b.style.overflow = b.style.overflow || 'hidden';
+  b.appendChild(d); setTimeout(function(){ d.remove(); }, 650);
+}, true);
+// ===== ব্যালেন্স বদলালে বাম্প =====
+(function(){
+  ['headerWalletBal', 'drawerWalletBal'].forEach(function(id){
+    var el = $(id); if(!el || !window.MutationObserver) return;
+    new MutationObserver(function(){ var p = el.parentNode; p.classList.remove('bump'); void p.offsetWidth; p.classList.add('bump'); }).observe(el, { childList: true, characterData: true, subtree: true });
+  });
+})();
+// ===== স্ক্রল করলে কার্ড ফুটে ওঠা =====
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, { threshold: .08 });
+  function scan(){ document.querySelectorAll('.rankcard,.rulecard,.voteitem,.icard,.oitem,.acard,.msg').forEach(function(el){ if(!el.__rv){ el.__rv = 1; el.classList.add('rv'); io.observe(el); } }); }
+  new MutationObserver(function(){ clearTimeout(scan.t); scan.t = setTimeout(scan, 60); }).observe(document.body, { childList: true, subtree: true });
+  scan();
+})();
+// ===== সফল টিক: কনফেটি =====
+function burstConfetti(host){
+  var cols = ['#facc15', '#22c55e', '#38bdf8', '#f472b6', '#fb923c', '#fff'];
+  for(var i = 0; i < 26; i++){
+    var p = document.createElement('i'); p.className = 'cf';
+    var a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 90;
+    p.style.cssText = 'background:' + cols[i % cols.length] + ';--dx:' + Math.cos(a) * d + 'px;--dy:' + (Math.sin(a) * d - 30) + 'px;--r:' + (Math.random() * 720 - 360) + 'deg;animation-delay:' + Math.random() * .12 + 's';
+    host.appendChild(p);
+  }
+}
+
 var lpTimer = 0, lpStart = null;
 function lpCancel(){ clearTimeout(lpTimer); }
 $('infoPage').addEventListener('pointerdown', e => { const m = e.target.closest('.msg'); if(!m || e.target.closest('a')) return; lpStart = { x: e.clientX, y: e.clientY }; lpTimer = setTimeout(() => showMsgSheet(m.dataset.id), 500); });
@@ -1536,7 +1705,7 @@ async function onRoomClick(e){
     try{ await SB.send('PATCH', 'messages?id=eq.' + id, { body: v.trim().slice(0, 500), edited_at: new Date().toISOString() }); await again(); }catch(err){ showToast('⚠️ Could not edit'); }
   }
   else if(op === 'del'){
-    if(!confirm('Delete this message?')) return;
+    if(!(await askConfirm('Delete this message?'))) return;
     if(!(await SB.ensure())) return;
     const m = ROOM.rows.find(r => String(r.id) === id);
     try{ await SB.send('DELETE', 'messages?id=eq.' + id); if(m && m.image_path) SB.removeObject(m.image_path); await again(); }catch(err){ showToast('⚠️ Could not delete'); }
@@ -1939,7 +2108,7 @@ function drawWallet(){
   const nums = [['bkash', 'bKash (বিকাশ)', P.bkash], ['nagad', 'Nagad (নগদ)', P.nagad]].filter(function(x){ return x[2]; });
   const curNum = nums.find(function(x){ return x[0] === WALLET.method; }) || nums[0] || ['bkash', 'bKash', ''];
 
-  let h = '<h3>👛 ওয়ালেট রিচার্জ (Add Money)</h3>';
+  let h = '<button class="xclose" type="button" aria-label="Close">✕</button><h3>👛 ওয়ালেট রিচার্জ (Add Money)</h3>';
   
   // ধাপ নির্দেশিকা (Step Tracker)
   h += '<div class="wallet-steps">' +
@@ -2209,7 +2378,7 @@ function vfyShow(st){
     box.innerHTML = '<div class="spin"></div><h4>ভেরিফাই হচ্ছে...</h4><p>একটু অপেক্ষা করো</p>';
   }else if(st.ok){
     const note = (D.pay.note || '').trim();
-    box.innerHTML = '<div class="vicon ok">✓</div><h4>সফল হয়েছে!</h4><p><b>' + esc(String(st.rank || '').trim()) + '</b>' + (st.plan ? '<br>' + esc(st.plan) : '') + (st.topup ? '' : '<br>Minecraft নাম: <b>' + esc(BUY.name.trim()) + '</b>' + (note ? '<br>' + esc(note) : '') + '<br><small>Rank আসতে দেরি হলে মেনু → "আমার অর্ডার"-এ <b>Pending</b> দেখাবে, এলে <b>দেওয়া হয়েছে</b> হবে।</small>') + '</p><button data-v="done">ঠিক আছে</button>';
+    box.innerHTML = '<div class="vicon ok"><span class="ring"></span><svg viewBox="0 0 52 52" width="46" height="46"><path class="tk" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M14 27 l8 8 l16 -18"/></svg></div><h4>সফল হয়েছে!</h4><p><b>' + esc(String(st.rank || '').trim()) + '</b>' + (st.plan ? '<br>' + esc(st.plan) : '') + (st.topup ? '' : '<br>Minecraft নাম: <b>' + esc(BUY.name.trim()) + '</b>' + (note ? '<br>' + esc(note) : '') + '<br><small>Rank আসতে দেরি হলে মেনু → "আমার অর্ডার"-এ <b>Pending</b> দেখাবে, এলে <b>দেওয়া হয়েছে</b> হবে।</small>') + '</p><button data-v="done">ঠিক আছে</button>';
   }else{
     const M = {
       player: 'Minecraft নাম ঠিক নেই (৩-২৪ অক্ষর, ইংরেজি অক্ষর/সংখ্যা/_ চলবে)।',
@@ -2226,6 +2395,7 @@ function vfyShow(st){
     box.innerHTML = '<div class="vicon no">✕</div><h4>ব্যর্থ হয়েছে</h4><p>' + esc(M[st.err] || 'ভেরিফাই হয়নি। আবার চেষ্টা করো।') + '</p><button data-v="retry">আবার চেষ্টা করো</button>';
   }
   $('vfy').classList.add('show');
+  try{ var vi = box.querySelector('.vicon.ok'); if(vi) burstConfetti(vi); }catch(e){}
   if(st && st.ok){ try{ setTimeout(refreshOrders, 1500); }catch(e){} }
 }
 $('vfyBox').addEventListener('click', function(e){
@@ -2279,7 +2449,7 @@ var ORD = { rows: [], timer: 0 };
 function ordFmtDate(s){ try{ return new Date(s).toLocaleString([], { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }catch(e){ return ''; } }
 function drawOrders(){
   const box = $('ordersBox'); if(!box) return;
-  let h = '<h3>🧾 আমার অর্ডার</h3><div class="osub">তুমি যা কিনেছ আর যত টাকা ওয়ালেটে যোগ করেছ</div>';
+  let h = '<button class="xclose" type="button" aria-label="Close">✕</button><h3>🧾 আমার অর্ডার</h3><div class="osub">তুমি যা কিনেছ আর যত টাকা ওয়ালেটে যোগ করেছ</div>';
   h += ORD.rows.map(function(o){
     if(o.kind === 'topup'){
       return '<div class="oitem"><div class="ot"><span>➕ ওয়ালেটে ৳' + esc(fmtMoney(o.amount)) + ' যোগ</span><span class="otag success">সফল</span></div><small>' + esc(ordFmtDate(o.created_at)) + '</small></div>';
@@ -2960,7 +3130,7 @@ $('adminBody').addEventListener('click', async function(e){
         player = ($('cmTestName').value || '').trim(); CM.player = player;
         if(!/^[A-Za-z0-9_]{3,16}$/.test(player)){ showToast('⚠️ উপরে টেস্টের জন্য ঠিক Minecraft নাম লেখো'); return; }
         if(!el.value.trim()){ showToast('⚠️ আগে কমান্ড লেখো'); return; }
-        if(!confirm('এই কমান্ড এখনই সার্ভারে চলবে (' + player + ' এর জন্য)। চালাবো?')) return;
+        if(!(await askConfirm('এই কমান্ড এখনই সার্ভারে চলবে (' + player + ' এর জন্য)। চালাবো?'))) return;
       }
       const res = await SB.rpc('cmds_set', { p_rank: r.name, p_amount: amt, p_label: title, p_commands: el.value });
       if(op === 'save'){
@@ -3006,7 +3176,7 @@ $('adminBody').addEventListener('click', async function(e){
   if(!name){ showToast('⚠️ ইউজারের নাম লেখো'); return; }
   if(!(amt >= 1) || amt > 100000){ showToast('⚠️ টাকা ১ থেকে ১,০০,০০০-এর মধ্যে দাও'); return; }
   if(!note){ showToast('⚠️ কারণ লিখতে হবে'); return; }
-  if(!confirm((op === 'add' ? 'যোগ করবে' : 'কেটে নেবে') + ': ' + name + ' → ৳' + amt + '\nকারণ: ' + note + '\nনিশ্চিত?')) return;
+  if(!(await askConfirm((op === 'add' ? 'যোগ করবে' : 'কেটে নেবে') + ': ' + name + ' → ৳' + amt + '\nকারণ: ' + note + '\nনিশ্চিত?'))) return;
   try{
     if(!(await SB.ensure())){ showToast('🔒 সেশন শেষ। আবার লগইন করো'); return; }
     const res = await SB.rpc('wallet_adjust', { p_name: name, p_delta: op === 'add' ? amt : -amt, p_note: note });
@@ -3593,24 +3763,24 @@ $('imgPick').addEventListener('change', e => {
 });
 
 
-$('adminBody').addEventListener('click', e => {
+$('adminBody').addEventListener('click', async e => {
   const b = e.target.closest('[data-act]');
   if(!b) return;
   const act = b.dataset.act, i = +b.dataset.i;
   if(act === 'addRule'){ A.rules.list.push({icon:'', title:'New Rule', items:['']}); renderAdmin(); }
-  else if(act === 'delRule'){ if(confirm('এই Rule মুছে ফেলবে?')){ A.rules.list.splice(i, 1); renderAdmin(); } }
+  else if(act === 'delRule'){ if(await askConfirm('এই Rule মুছে ফেলবে?')){ A.rules.list.splice(i, 1); renderAdmin(); } }
   else if(act === 'upRule'){ swap(A.rules.list, i, i - 1); renderAdmin(); }
   else if(act === 'downRule'){ swap(A.rules.list, i, i + 1); renderAdmin(); }
   else if(act === 'lAdd' || act === 'lDel' || act === 'lUp' || act === 'lDn'){
     const arr = getPath(A, b.dataset.key);
     if(act === 'lAdd'){ const o = {}; b.dataset.fields.split(',').forEach(k => { o[k] = ''; }); arr.push(o); }
-    else if(act === 'lDel'){ if(!confirm('Delete this item?')) return; arr.splice(i, 1); }
+    else if(act === 'lDel'){ if(!(await askConfirm('Delete this item?'))) return; arr.splice(i, 1); }
     else{ const j = act === 'lUp' ? i - 1 : i + 1; if(j >= 0 && j < arr.length){ const t = arr[i]; arr[i] = arr[j]; arr[j] = t; } }
     renderAdmin();
   }
   else if(act === 'resetMember'){
     const nm = b.dataset.name;
-    if(!confirm('Reset the password for ' + nm + '? They will set a new password the next time they log in.')) return;
+    if(!(await askConfirm('Reset the password for ' + nm + '? They will set a new password the next time they log in.'))) return;
     SB.ensure().then(ok => ok ? SB.rpc('reset_member', { p_name: nm }) : Promise.reject({}))
       .then(() => { showToast('✅ Reset done. ' + nm + ' can now set a new password'); loadMembers(); })
       .catch(err => showToast('⚠️ Reset failed' + (err && err.detail ? ': ' + err.detail : '')));
@@ -3620,7 +3790,7 @@ $('adminBody').addEventListener('click', e => {
   else if(act === 'admMute'){ muteUser(b.dataset.name, +$(b.dataset.sel).value).then(loadPeople); }
   else if(act === 'admUnmute'){ unmuteUser(b.dataset.name).then(loadPeople); }
   else if(act === 'admDelReview'){
-    if(!confirm('Delete this review?')) return;
+    if(!(await askConfirm('Delete this review?'))) return;
     SB.ensure().then(ok => ok ? SB.send('DELETE', 'reviews?uid=eq.' + encodeURIComponent(b.dataset.uid)) : Promise.reject())
       .then(() => { showToast('🗑️ Deleted'); loadReviewsAdmin(); }).catch(() => showToast('⚠️ Could not delete'));
   }
@@ -3642,7 +3812,7 @@ $('adminBody').addEventListener('click', e => {
   else if(act === 'aPost'){
     const op = b.dataset.op;
     if(op === 'add') A.ann.unshift({ by: getUser(), title: '', date: '', popup: false, start: '', end: '', blocks: [{ type: 'text', text: '', img: '' }] });
-    else if(op === 'del'){ if(!confirm('Delete this announcement?')) return; A.ann.splice(i, 1); }
+    else if(op === 'del'){ if(!(await askConfirm('Delete this announcement?'))) return; A.ann.splice(i, 1); }
     else swap(A.ann, i, op === 'up' ? i - 1 : i + 1);
     renderAdmin();
   }
@@ -3687,7 +3857,7 @@ $('adminBody').addEventListener('click', e => {
     }).catch(() => showToast('⚠️ Could not load. Check your connection'));
   }
   else if(act === 'addRank'){ A.ranks.push({name:'New Rank', price:'', image:'', perks:[]}); renderAdmin(); }
-  else if(act === 'delRank'){ if(confirm('এই Rank মুছে ফেলবে?')){ A.ranks.splice(i, 1); renderAdmin(); } }
+  else if(act === 'delRank'){ if(await askConfirm('এই Rank মুছে ফেলবে?')){ A.ranks.splice(i, 1); renderAdmin(); } }
   else if(act === 'upRank'){ swap(A.ranks, i, i - 1); renderAdmin(); }
   else if(act === 'downRank'){ swap(A.ranks, i, i + 1); renderAdmin(); }
   else if(act === 'pickImg'){ pendingImg = i; $('imgPick').click(); }
