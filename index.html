@@ -596,6 +596,14 @@ document.addEventListener('click', function(e){
   .aitem:hover{border-color:var(--accent)}
   .aback{align-self:flex-start;padding:10px 14px;border-radius:999px;background:transparent;border:1px solid var(--border);color:var(--text);font:inherit;cursor:pointer;margin-bottom:8px}
   .rvstars{display:flex;gap:4px}.rvstars button{font-size:1.9rem;background:none;border:0;color:#666;cursor:pointer;padding:0 2px}.rvstars button.on{color:var(--accent)}
+  .typbox{min-height:18px;font-size:12px;color:var(--muted,#9aa);padding:2px 6px}
+  .typbox:empty{min-height:0;padding:0}
+  .tdots i{display:inline-block;width:4px;height:4px;margin:0 1px;border-radius:50%;background:currentColor;animation:tdot 1.1s infinite ease-in-out}
+  .tdots i:nth-child(2){animation-delay:.18s}.tdots i:nth-child(3){animation-delay:.36s}
+  @keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+  .msg.sending{opacity:.6}
+  .spin{display:inline-block;width:9px;height:9px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;vertical-align:-1px;animation:spn .7s linear infinite}
+  @keyframes spn{to{transform:rotate(360deg)}}
   .msglist{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow:auto;padding:2px}
   .msg{padding:10px 12px;border-radius:14px;background:var(--card);border:1px solid var(--border)}
   .mhead{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.mhead small{color:var(--muted)}
@@ -613,6 +621,15 @@ document.addEventListener('click', function(e){
   .sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);z-index:70;display:none;align-items:center;justify-content:center;padding:18px}
   .sheet.show{display:flex}
   .sheetbox{width:100%;max-width:340px;background:#141414;border:1px solid var(--border);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:10px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:popIn .28s cubic-bezier(.2,1.3,.4,1) both}
+  .shhead{display:flex;flex-direction:column;gap:4px;padding:2px 4px 10px;border-bottom:1px solid var(--border);margin-bottom:2px}
+  .shhead b{font-size:1.05rem}
+  .shhead small{color:var(--muted,#9aa);word-break:break-word;font-size:.8rem}
+  .sheetbox button[data-rm=del]{border-color:rgba(239,68,68,.5);color:#fca5a5;background:rgba(239,68,68,.12)}
+  .sheetbox button[data-rm=del]:hover{background:rgba(239,68,68,.25)}
+  .sheetbox button[data-rm=edit]:hover,.sheetbox button[data-rm=mute]:hover{background:rgba(255,255,255,.12)}
+  .sheetbox button.shx{background:transparent;color:var(--muted,#9aa);margin-top:2px}
+  .sheetbox button{transition:transform .15s,background .2s}
+  .sheetbox button:active{transform:scale(.97)}
   .sheetbox button{padding:14px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);font:inherit;cursor:pointer}
   .perms{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.pchk{font-size:.85rem;color:var(--text)}
   .hint{text-align:center;color:var(--muted);font-size:.8rem;margin-top:4px}
@@ -697,7 +714,7 @@ document.addEventListener('click', function(e){
 
   /* ===== মেসেঞ্জারের মতো চ্যাট: ইনপুট নিচে স্থির, কিবোর্ড উঠলে উপরে উঠবে ===== */
   body.in-chat{overflow:hidden}
-  body.in-chat .discord{display:none}
+  body.in-chat .discord,body.on-rewards .discord{display:none}
   #infoPage.chatroom{
     position:fixed;left:0;right:0;top:66px;height:calc(100vh - 66px);z-index:5;
     min-height:0;padding:6px 12px 8px;gap:6px;overflow:hidden;justify-content:flex-start;
@@ -1304,6 +1321,7 @@ document.addEventListener('click', function(e){
     <button class="tabbtn" data-tab="pay">💳 Payment</button>
     <button class="tabbtn" data-tab="cmds">⌨️ Rank কমান্ড</button>
     <button class="tabbtn" data-tab="wallets">👛 ওয়ালেট ম্যানেজার</button>
+    <button class="tabbtn" data-tab="rwds">🪙 Rewards</button>
     <button class="tabbtn" data-tab="ann">📢 Announcements</button>
     <button class="tabbtn" data-tab="home">🏠 Home</button>
     <button class="tabbtn" data-tab="season">🎨 Season</button>
@@ -1739,10 +1757,10 @@ async function renderRoom(room){
   ROOM = { name: room, rows: [], muted: [], myMuted: false, sig: '', img: null }; barKey = '';
   $('infoPage').innerHTML = '<div class="title"><div class="badge">' + P[0] + ' ' + P[1] + '</div><h1>' + P[1] + '</h1>' +
     (room === 'report' ? '<p>Tell us about a bug or a problem. Everyone can see and reply.</p>' : '') + '</div>' +
-    '<div class="ibody"><div id="mutedBox"></div><div id="msgList" class="msglist"><div class="iempty">Loading...</div></div><div class="hint">Press and hold a message for options</div><div id="msgBar"></div></div>';
+    '<div class="ibody"><div id="mutedBox"></div><div id="msgList" class="msglist"><div class="iempty">Loading...</div></div><div class="hint">Press and hold a message for options</div><div id="typBox" class="typbox"></div><div id="msgBar"></div></div>';
   await loadRoom(true);
   clearInterval(roomTimer);
-  roomTimer = setInterval(() => { if(curHash() === '#p-' + room) loadRoom(false); else clearInterval(roomTimer); }, 1800);
+  roomTimer = setInterval(() => { if(curHash() === '#p-' + room){ loadRoom(false); typPoll(); } else clearInterval(roomTimer); }, 1800);
 }
 async function loadRoom(first){
   const room = ROOM.name; if(!room) return;
@@ -1764,7 +1782,7 @@ function drawRoom(first){
   const near = first || list.scrollHeight - list.scrollTop - list.clientHeight < 80;
   list.innerHTML = ROOM.rows.length ? ROOM.rows.map(r => {
     const when = new Date(r.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-    return '<div class="msg" data-id="' + r.id + '"><div class="mhead"><b style="color:' + nameColor(r.name) + '">' + e(r.name === 'AI' ? '🤖 AI' : r.name) + '</b><small>' + e(when) + (r.edited_at ? ' · edited' : '') + '</small></div>' +
+    return '<div class="msg' + (String(r.id).indexOf('opt_') === 0 ? ' sending' : '') + '" data-id="' + r.id + '"><div class="mhead"><b style="color:' + nameColor(r.name) + '">' + e(r.name === 'AI' ? '🤖 AI' : r.name) + '</b><small>' + e(when) + (r.edited_at ? ' · edited' : '') + (String(r.id).indexOf('opt_') === 0 ? ' · <span class="spin"></span> Sending…' : '') + '</small></div>' +
       (r.body ? '<div class="mbody">' + mentionHtml(r.body) + '</div>' : '') +
       (r.image_path ? '<a href="' + e(imgUrl(r.image_path)) + '" target="_blank" rel="noopener"><img loading="lazy" src="' + e(imgUrl(r.image_path)) + '" alt=""></a>' : '') + '</div>';
   }).join('') : '<div class="iempty">No messages yet.</div>';
@@ -1781,7 +1799,7 @@ function showMsgSheet(id){
   if(own || mod) h += '<button data-rm="del" data-id="' + m.id + '">🗑️ Delete</button>';
   if(mod && !own && !isAd && m.name !== 'AI') h += '<button data-rm="mute" data-name="' + esc(m.name) + '">🔇 Mute</button>';
   if(!h) return;
-  $('msgSheet').innerHTML = '<div class="sheetbox"><b>' + esc(m.name) + '</b>' + h + '<button data-rm="close">Cancel</button></div>';
+  $('msgSheet').innerHTML = '<div class="sheetbox"><div class="shhead"><b>' + esc(m.name) + '</b>' + (m.body ? '<small>' + esc(m.body.slice(0, 70)) + (m.body.length > 70 ? '…' : '') + '</small>' : '') + '</div>' + h + '<button class="shx" data-rm="close">Cancel</button></div>';
   $('msgSheet').classList.add('show');
 }
 
@@ -1850,6 +1868,7 @@ function burstConfetti(host){
 var RW = { st: null, timer: 0, tick: 0 };
 function dhakaLeft(){ var n = Date.now(), d = 86400000, nx = Math.floor((n + 6 * 3600000) / d) * d - 6 * 3600000 + d, s = Math.max(0, Math.floor((nx - n) / 1000)); return String(Math.floor(s / 3600)).padStart(2, '0') + ':' + String(Math.floor(s % 3600 / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
 async function renderRewards(){
+  document.body.classList.add('on-rewards');
   clearInterval(RW.timer); clearInterval(RW.tick);
   $('infoPage').innerHTML = '<div class="title"><div class="badge">🪙 Rewards</div><h1>Rewards</h1><p>Watch a short video, get coins. A new day starts at 12 AM (Bangladesh time).</p></div><div class="ibody" id="rwBody"><div class="iempty">Loading...</div></div>';
   if(!getUser() || !SB.hasSession()){ $('rwBody').innerHTML = '<div class="icard" style="text-align:center">Log in to earn coins.<div class="ibtns" style="justify-content:center"><button class="ibtn" data-rw="login">Log in</button></div></div>'; return; }
@@ -1948,6 +1967,25 @@ function drawBar(){
   else bar.innerHTML = (ROOM.name === 'report' ? '<select id="rtype"><option>Bug</option><option>Player Report</option><option>Other</option></select>' : '') +
     '<div id="imgChip"></div><div id="mentionBox" class="mbox"></div><div class="chatbar"><button class="plus" data-rm="plus" title="Add image">＋</button><textarea id="msgText" rows="1" maxlength="500" placeholder="Message..."></textarea><button class="send" data-rm="send">➤</button></div>';
 }
+var typLast = 0, typBusy = false;
+async function typPoll(){
+  const box = $('typBox'); if(!box || !ROOM.name || !SB.hasSession() || typBusy || document.hidden) return;
+  typBusy = true;
+  try{
+    const names = await SB.rpc('typing_list', { p_room: ROOM.name });
+    const b2 = $('typBox'); if(!b2) return;
+    if(!names || !names.length){ b2.innerHTML = ''; return; }
+    const n = names.slice(0, 2).map(x => esc(x)).join(', ') + (names.length > 2 ? ' +' + (names.length - 2) : '');
+    b2.innerHTML = '<b>' + n + '</b> ' + (names.length > 1 ? 'are' : 'is') + ' typing <span class="tdots"><i></i><i></i><i></i></span>';
+  }catch(e){}
+  typBusy = false;
+}
+$('infoPage').addEventListener('input', e => {
+  if(e.target.id !== 'msgText' || !ROOM.name || !SB.hasSession()) return;
+  if(!e.target.value.trim()) return;
+  const t = Date.now(); if(t - typLast < 2500) return; typLast = t;
+  SB.rpc('typing_ping', { p_room: ROOM.name }).catch(() => {});
+});
 function chip(){ const c = $('imgChip'); if(c) c.innerHTML = ROOM.img ? '<div class="icard"><img src="' + esc(ROOM.img) + '" alt="" style="max-height:120px;width:auto"><button class="ibtn" data-rm="chipx">✕ Remove image</button></div>' : ''; }
 $('infoPage').addEventListener('keydown', e => { if(e.target.id === 'msgText' && e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); const s = document.querySelector('[data-rm=send]'); if(s) s.click(); } });
 async function onRoomClick(e){
@@ -1969,7 +2007,7 @@ async function onRoomClick(e){
     const t = $('msgText').value.trim();
     if(!t && !ROOM.img) return;
     if(!(await SB.ensure())){ showToast('🔒 Session ended. Log in again'); return; }
-    b.disabled = true;
+    b.disabled = true; let optId = null;
     try{
       let path = null;
       if(ROOM.img){ path = SB.sub() + '/' + Date.now() + '.jpg'; await SB.upload(path, ROOM.img); }
@@ -1985,9 +2023,11 @@ async function onRoomClick(e){
       });
       drawRoom(false);
       $('msgText').value = ''; ROOM.img = null; chip();
+      optId = ROOM.rows[ROOM.rows.length - 1].id;
       await SB.send('POST', 'messages', { room: room, name: getUser(), body: sentBody, image_path: path });
       await again();
-    }catch(err){ showToast(err.status === 403 || err.status === 400 || err.status === 401 ? '⚠️ Could not send. Wait a moment, or you may be muted' : '⚠️ Could not send. Try again'); }
+    }catch(err){
+      if(optId){ ROOM.rows = ROOM.rows.filter(r => r.id !== optId); drawRoom(false); const mt = $('msgText'); if(mt && !mt.value) mt.value = t; } showToast(err.status === 403 || err.status === 400 || err.status === 401 ? '⚠️ Could not send. Wait a moment, or you may be muted' : '⚠️ Could not send. Try again'); }
     b.disabled = false;
   }
   else if(op === 'edit'){
@@ -3423,6 +3463,7 @@ function secs(){ return {
 var SENSITIVE_SECS = ['cmds', 'wallets'];   // এই দুটো Admin-access স্টাফও স্পষ্ট টিক ছাড়া পাবে না
 function myStaff(){ const u = getUser().toLowerCase(); return (u && SB.hasSession() && !isAdmin()) ? (D.staff.find(x => x.name.toLowerCase() === u) || null) : null; }
 function canSection(id){
+  if(id === 'rwds') id = 'wallets';   // Rewards পারমিশন = ওয়ালেট পারমিশন
   if(isAdmin()) return true;
   const m = myStaff(); if(!m || !secs()[id]) return false;
   if(SENSITIVE_SECS.indexOf(id) >= 0) return (m.perms || []).indexOf(id) >= 0;
@@ -3567,15 +3608,18 @@ $('adminBody').addEventListener('click', async function(e){
 
 // ===== ওয়ালেট ম্যানেজার (অ্যাডমিন / অনুমতিপ্রাপ্ত স্টাফ) =====
 function tabWallets(){
-  setTimeout(function(){ loadWallets(''); loadWalletHistory(); loadRwCfg(); }, 0);
+  setTimeout(function(){ loadWallets(''); loadWalletHistory(); }, 0);
   return '<div class="acard"><h3>👛 ওয়ালেট ম্যানেজার</h3><p class="note">সবার ওয়ালেটের টাকা দেখো, কাউকে টাকা যোগ করো বা কেটে নাও। প্রতিটা পরিবর্তনের কারণ লিখতে হয়, আর ইউজার নিজের "আমার অর্ডার"-এ সেটা দেখতে পায়।<br>সবার মোট ব্যালেন্স: <b id="wmTotal">...</b></p>' +
     '<label>নাম খোঁজো<input type="text" id="wmQ" placeholder="যেমন obs"></label><button class="aadd" data-wm="search">🔍 খোঁজো</button><div id="wmList" class="note">Loading...</div></div>' +
     '<div class="acard"><h3>✏️ টাকা যোগ / কাটা</h3><label>ইউজারের নাম (উপরের তালিকায় চাপলেও বসে যাবে)<input type="text" id="wmName" maxlength="24" autocomplete="off"></label>' +
     '<label>টাকা (সংখ্যা)<input type="number" id="wmAmt" min="1" step="1" inputmode="decimal"></label>' +
     '<label>কারণ (ইউজার এটা দেখতে পাবে)<input type="text" id="wmNote" maxlength="100" placeholder="যেমন: ভুল কেনার ফেরত"></label>' +
     '<div class="ibtns"><button class="aadd" data-wm="add">➕ যোগ করো</button><button class="aadd" data-wm="sub" style="border-color:#ef4444;color:#fca5a5">➖ কেটে নাও</button></div></div>' +
-    '<div class="acard"><h3>📜 ওয়ালেট লেনদেন</h3><div id="walHist" class="note">Loading...</div></div>' +
-    '<div class="acard"><h3>🪙 Rewards (ভিডিও দেখে কয়েন)</h3><p class="note">ইউজার ভিডিও দেখলে এই কয়েন পাবে। কয়েন আসল টাকা না, শুধু সাইটের কয়েন। দিনের সীমা শেষ হলে পরদিন বাংলাদেশ সময় রাত ১২টায় আবার শুরু।</p><div id="rwCfg" class="note">Loading...</div></div>';
+    '<div class="acard"><h3>📜 ওয়ালেট লেনদেন</h3><div id="walHist" class="note">Loading...</div></div>';
+}
+function tabRewardsAdmin(){
+  setTimeout(loadRwCfg, 0);
+  return '<div class="acard"><h3>🪙 Rewards (ভিডিও দেখে কয়েন)</h3><p class="note">ইউজার ভিডিও দেখলে এই কয়েন পাবে। কয়েন আসল টাকা না, শুধু সাইটের কয়েন। দিনের সীমা শেষ হলে পরদিন বাংলাদেশ সময় রাত ১২টায় আবার শুরু।</p><div id="rwCfg" class="note">Loading...</div></div>';
 }
 async function loadRwCfg(){
   const box = $('rwCfg'); if(!box) return;
@@ -4146,10 +4190,10 @@ function tabBackup(){
 function renderAdmin(){
   $('adminHello').textContent = 'লগইন: ' + getUser();
   $('adminTabs').querySelectorAll('.tabbtn').forEach(b => b.classList.toggle('on', b.dataset.tab === adminTab));
-  const map = { cmds: tabCmds, wallets: tabWallets, members: tabMembers, rules: tabRules, server: tabServer, ranks: tabRanks, pay: tabPay, ann: tabAnn, home: tabHome, season: tabSeason, aimgr: tabAIMgr, reviews: tabReviewsAdmin, chat: tabChat, report: tabReportAdmin, backup: tabBackup, staff: () => menuToggle('staff') + tabStaff(), links: () => menuToggle('links') + tabLinks(), help: () => menuToggle('help') + tabHelp(),
+  const map = { cmds: tabCmds, wallets: tabWallets, rwds: tabRewardsAdmin, members: tabMembers, rules: tabRules, server: tabServer, ranks: tabRanks, pay: tabPay, ann: tabAnn, home: tabHome, season: tabSeason, aimgr: tabAIMgr, reviews: tabReviewsAdmin, chat: tabChat, report: tabReportAdmin, backup: tabBackup, staff: () => menuToggle('staff') + tabStaff(), links: () => menuToggle('links') + tabLinks(), help: () => menuToggle('help') + tabHelp(),
   siteinfo: () => menuToggle('siteinfo') + tabSiteInfo(), events: () => menuToggle('events') + tabEvents(), community: () => menuToggle('community') + tabCommunity() };
   if(adminTab && !(isAdmin() || canSection(adminTab))) adminTab = '';
-  document.body.classList.toggle('admin-home', !adminTab || adminTab === 'aimgr' || adminTab === 'cmds' || adminTab === 'wallets');
+  document.body.classList.toggle('admin-home', !adminTab || adminTab === 'aimgr' || adminTab === 'cmds' || adminTab === 'wallets' || adminTab === 'rwds');
   if(!adminTab){
     $('adminBody').innerHTML = '<div class="alist">' + [...$('adminTabs').querySelectorAll('.tabbtn')].filter(b => isAdmin() || canSection(b.dataset.tab)).map(b => '<button class="aitem" data-go="' + b.dataset.tab + '">' + b.textContent + '</button>').join('') + '</div>';
     return;
@@ -4441,7 +4485,7 @@ const pages = {
   admin: $('adminPage')
 };
 function route(){
-  $('infoPage').classList.remove('chatroom'); document.body.classList.remove('in-chat');
+  $('infoPage').classList.remove('chatroom'); document.body.classList.remove('in-chat'); document.body.classList.remove('on-rewards');
   $('infoPage').style.top = ''; $('infoPage').style.height = '';
   const key = curHash().replace('#','');
   const ik = key.indexOf('p-') === 0 ? key.slice(2) : '';
